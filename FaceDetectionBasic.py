@@ -5,15 +5,15 @@ import mediapipe as mp
 import time
 
 
-cap = cv.VideoCapture('Endgame.mp4')
+cap = cv.VideoCapture('I_like_this.mp4')
 
 
 mpFaceDetection = mp.solutions.face_detection
 mpDraw = mp.solutions.drawing_utils # The function is reached to draw
-faceDetection = mpFaceDetection.FaceDetection(min_detection_confidence=0.5) # The fails are destroyed by 0.75
+faceDetection = mpFaceDetection.FaceDetection(0.75,1) # The fails are destroyed by 0.75
 
 
-
+cTime = 0
 pTime = 0
 while True:
     success, imgg = cap.read() # The picture is read 
@@ -25,7 +25,6 @@ while True:
         for id, detection in enumerate(results.detections): # Each face data is passed to detection variable
             
             
-
             mpDraw.draw_detection(imgg,detection)
             print(id,detection)
             # The datas which is in list, is written
@@ -43,22 +42,22 @@ while True:
             box3 = (int(bboxC.xmin*iw)+int(bboxC.width*iw)),int(bboxC.ymin*ih)+int(bboxC.height*ih)
              
             
-            
-            cv.putText(imgg,(f'{int(detection.score[0]*100)}%'),(box2[0],box3[1]-300),cv.FONT_HERSHEY_COMPLEX,1,(250,50,50),2 )
+            cv.rectangle(imgg,box2,box3,(250,50,250),6)
+            cv.putText(imgg,(f'{int(detection.score[0]*100)}%'),(box2[0],box3[1]-170),cv.FONT_HERSHEY_COMPLEX,1,(250,50,50),2 )
             
             
             
             #imgg = cv.resize(img,(360,540)) # The picture which is got from file, is resized determined measurement
             # To find the fps
-            cTime = time.time()
-            fps = 1/(cTime-pTime)
-            pTime=cTime
-            print(fps)
+        cTime = time.time()
+        fps = 1/(cTime-pTime)
+        pTime=cTime
+        print(fps)
             
     
-            cv.putText(imgg,(f'FPS: {int(fps)}'),(10,100),cv.FONT_HERSHEY_PLAIN,2,(250,50,50),2)
+        cv.putText(imgg,f'FPS: {int(fps)}',(20,40),cv.FONT_HERSHEY_PLAIN,2,(250,50,50),2)
     
-            cv.imshow('image', imgg)
+        cv.imshow('image',imgg)
     
     
     if cv.waitKey(20) & 0xFF == ord('a'):
