@@ -25,7 +25,7 @@ while True:
         for id, detection in enumerate(results.detections): # Each face data is passed to detection variable
             
             
-            mpDraw.draw_detection(imgg,detection)
+            #mpDraw.draw_detection(imgg,detection) # If this line is became comment, it will disappear detection points on the face.
             print(id,detection)
             # The datas which is in list, is written
             print(detection.score)
